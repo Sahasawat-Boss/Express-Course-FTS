@@ -1,11 +1,4 @@
-# Install Step
-
-1. npm i
-2. npm i express
-
-3. Create index.js 
-
- ```
+// Sample Express send json data
 import express from 'express'
 
 const app = express()
@@ -24,20 +17,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`)
 })
-```
-4. Update package.json - script for run
-   
-```
-{
-  "dependencies": {
-    "express": "^5.1.0"
-  },
-"scripts": {
-  "dev": "node index.js"
-}
-}
-```
-
-5. npm i body-parser
-
-
