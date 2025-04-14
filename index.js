@@ -55,6 +55,7 @@ app.delete('/todos/:id', (req, res) => {
     });
 })
 
+
 app.patch('/todos/:id', (req, res) => {
     const todoIndex = todoList.findIndex((todo) => todo.id === req.params.id);
 
@@ -64,7 +65,24 @@ app.patch('/todos/:id', (req, res) => {
     }
 
     // Destructuring:  Merge new data into the existing todo
-    todoList[todoIndex] = {...todoIndex[todoIndex],...req.body}
+    todoList[todoIndex] = { ...todoIndex[todoIndex], ...req.body }
+
+    res.json({
+        message: "Todo updated successfully",
+        updated: todoList[todoIndex]
+    });
+})
+
+app.put('/todos/:id', (req, res) => {
+    const todoIndex = todoList.findIndex((todo) => todo.id === req.params.id);
+
+    if (todoIndex === -1) {
+        res.status(404).send("Todo not found")
+        return
+    }
+
+    // PUT Override no merge
+    todoList[todoIndex] = req.body;
 
     res.json({
         message: "Todo updated successfully",
