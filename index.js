@@ -55,6 +55,22 @@ app.delete('/todos/:id', (req, res) => {
     });
 })
 
+app.patch('/todos/:id', (req, res) => {
+    const todoIndex = todoList.findIndex((todo) => todo.id === req.params.id);
+
+    if (todoIndex === -1) {
+        res.status(404).send("Todo not found")
+        return
+    }
+
+    // Destructuring:  Merge new data into the existing todo
+    todoList[todoIndex] = {...todoIndex[todoIndex],...req.body}
+
+    res.json({
+        message: "Todo updated successfully",
+        updated: todoList[todoIndex]
+    });
+})
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`)
