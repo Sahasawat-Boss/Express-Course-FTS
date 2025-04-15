@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { request } from 'express'
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -29,6 +29,23 @@ app.get('/todos', (req, res) => {
         data: todoList
     });
 });
+
+// GET by ID
+app.get('/todos/:id', (req, res) => {
+    const todo = todoList.find((todo) => todo.id === req.params.id)
+
+    if(todo){
+        res.send(todo)
+    }
+
+    res.status(404).send("Todo not found")
+});
+
+app.post('/todos/bulk', (req, res) => {
+    console.log('body data', req.body);
+    todoList.push(...req.body);
+    res.send(req.body);
+})
 
 app.post('/todos', (req, res) => {
     console.log('body data', req.body);
