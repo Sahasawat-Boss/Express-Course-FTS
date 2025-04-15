@@ -20,7 +20,7 @@ const port = 3000
 // name
 
 const todoList = [];
-// body data { id: 'test-1', status: 'in-progress', name: 'Task-1' }
+// body data { id: '1', status: 'in-progress', name: '1' }
 
 app.get('/todos', (req, res) => {
     console.log(todoList);
@@ -71,6 +71,8 @@ app.delete('/todos/:id', (req, res) => {
     });
 })
 
+
+//* Actually we have a better and shorter step for bulk todo
 app.delete('/todos', (req, res) => {
     const listIds = req.query.in?.split(',') || [];
 
