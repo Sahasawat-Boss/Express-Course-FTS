@@ -25,7 +25,6 @@ const todoList = [];
 app.get('/todos', (req, res) => {
     console.log(todoList);
     res.json({
-        message: 'All Todos',
         data: todoList
     });
 });
@@ -34,7 +33,7 @@ app.get('/todos', (req, res) => {
 app.get('/todos/:id', (req, res) => {
     const todo = todoList.find((todo) => todo.id === req.params.id)
 
-    if(todo){
+    if (todo) {
         res.send(todo)
     }
 
@@ -72,6 +71,30 @@ app.delete('/todos/:id', (req, res) => {
     });
 })
 
+app.delete('/todos', (req, res) => {
+    const listIds = req.query.in?.split(',') || [];
+
+    if (listIds.length === 0) {
+        return res.status(400).json({ message: "No IDs provided in query" });
+    }
+
+    const deletedTodos = [];
+
+    // Loop backwards to safely remove by index while iterating
+    for (let i = todoList.length - 1; i >= 0; i--) {
+        if (listIds.includes(todoList[i].id)) {
+            const [deleted] = todoList.splice(i, 1);
+            deletedTodos.push(deleted);
+        }
+    }
+
+    console.log('Deleted todos:', deletedTodos);
+
+    res.json({
+        message: `${deletedTodos.length} todo(s) deleted`,
+        deleted: deletedTodos
+    });
+});
 
 app.patch('/todos/:id', (req, res) => {
     const todoIndex = todoList.findIndex((todo) => todo.id === req.params.id);
